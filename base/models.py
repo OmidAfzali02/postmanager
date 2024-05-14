@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
+import uuid
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -16,7 +18,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
 
-gender_choices = ((True, 'male'), (False, 'female'))
+gender_choices = (('male', 'male'), ('female', 'female'))
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, blank=True, null=True)
@@ -53,3 +55,30 @@ class Agent(models.Model):
 
     def __str__(self):
         return str(self.id) + ', ' + str(self.agent.name)
+
+delivery_choices = (('At agency', 'At agency'), ('At customer home', 'At customer home'))
+
+class package(models.Model):
+    id = models.UUIDField(primary_key=True ,verbose_name='package id', default=uuid.uuid4, editable=False)
+    contents = models.CharField(max_length=100, blank=True, default=str)
+    length = models.PositiveSmallIntegerField(blank=True, default=0, verbose_name="Package length in cm")
+    width = models.PositiveSmallIntegerField(blank=True, default=0, verbose_name="Package width in cm")
+    height = models.PositiveSmallIntegerField(blank=True, default=0, verbose_name="Package height in cm")
+    weight = models.PositiveSmallIntegerField(default=0, verbose_name="Package weight in grams")
+    location = models.JSONField(blank=True, default=list)
+    delivery = models.CharField(max_length=30, choices=delivery_choices)
+
+    sender_name = models.CharField(max_length=20)
+    sender_phone = models.CharField(max_length=10)
+    sender_address = models.TextField()
+    sender_postal_code = models.CharField(max_length=10, blank=True, default=str)
+    sender_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Sended_agency')
+
+    receiver_name = models.CharField(max_length=20)
+    receiver_phone = models.CharField(max_length=10)
+    receiver_address = models.TextField()
+    receiver_postal_code = models.CharField(max_length=10, blank=True, default=str)
+    receiver_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Received_agency')
+
+    def __str__(self):
+        return str(self.sender_agency.agency_city) +' to '+ str(self.receiver_agency.agency_city) + ', ' + str(self.id)
