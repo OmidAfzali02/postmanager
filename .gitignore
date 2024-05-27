@@ -267,3 +267,4 @@ pyrightconfig.json
 /base/migrations
 *.pyc
 /postmanager/__pycache__
+*.pyc
