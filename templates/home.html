@@ -1,5 +1,3 @@
-{% extends 'main.html' %}
-
 {% block content %}
 
 <style>
@@ -9,7 +7,7 @@
     }
 </style>
 
-<h1>Study Bud Home Template</h1>
+<h1>Falcon Postal Service</h1>
 
 <form action="/studybud/" method="get">
     <input type="text" name="q" placeholder="Search Rooms ...">
@@ -19,7 +17,11 @@
 <div class="home-container">
     <div>
         <h3>Browse topics</h3>
-        <h5>{{room_count}} rooms available</h5>
+        <a href=""><h5>Signup</h5></a>
+        <a href=""><h5>Customer login</h5></a>
+        <a href=""><h5>Agent login</h5></a>
+        <a href=""><h5>Rules</h5></a>
+        <a href=""><h5>About Falcon</h5></a>
         <hr>
         <div>
             <a href="/studybud">All</a>
@@ -32,7 +34,7 @@
     </div>
 
     <div>
-        <h3><a href="/studybud/create-room/"> Create Room</a></h3>
+        <h3><a href="/studybud/create-room/"> Send package</a></h3>
         {% for room in rooms %}
         <div>
             {% if request.user == room.host %}
@@ -47,7 +49,7 @@
         {% endfor %}
     </div>
     <div>
-        <h3>Recent Activities</h3>
+        <h3>News and blogs</h3>
         <hr>
         {% for message in all_messages %}
         <div>
