@@ -29,10 +29,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     birth_date = models.DateField(blank=True, null=True, editable=True)
     avatar = models.ImageField(blank=True, null=True, upload_to='image/avatar')
     gender = models.CharField(blank=True, null=True, max_length=20, choices=gender_choices)
-    address = models.TextField(blank=True, null=True)
-    postal_code = models.CharField(max_length=10, blank=True, null=True)
-    province = models.CharField(max_length=20, null=True, blank=True)
-    city = models.CharField(max_length=30, null=True, blank=True)
 
 
     objects = CustomUserManager()
@@ -43,6 +39,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
+class Address(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    province = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=30, null=True, blank=True)
+    address = models.TextField(default=str)
+    postal_code = models.CharField(max_length=10, default=str, unique=True)
+
+    def __str__(self):
+        return str(self.id) + ', ' + str(self.customer.name)
+    
 
 class Agent(models.Model):
     agent = models.OneToOneField(User, on_delete=models.CASCADE)

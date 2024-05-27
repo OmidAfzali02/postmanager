@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .home-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+    }
+</style>
+
+<h1>Study Bud Home Template</h1>
+
+<form action="/studybud/" method="get">
+    <input type="text" name="q" placeholder="Search Rooms ...">
+</form>
+
+
+<div class="home-container">
+    <div>
+        <h3>Browse topics</h3>
+        <h5>{{room_count}} rooms available</h5>
+        <hr>
+        <div>
+            <a href="/studybud">All</a>
+        </div>
+        {% for topic in topics %}
+            <div>
+                <a href="/studybud/?q={{topic.name}}">{{topic.name}}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        <h3><a href="/studybud/create-room/"> Create Room</a></h3>
+        {% for room in rooms %}
+        <div>
+            {% if request.user == room.host %}
+            <a href="/studybud/update-room/{{room.id}}">Edit!</a>
+            <a href="/studybud/delete-room/{{room.id}}">Delete!</a>
+            {% endif %}
+            <a href="/studybud/profile/{{room.host.id}}">@{{room.host.username}} </a>
+            <h5>{{room.id}} - <a href="/studybud/room/{{room.id}}">{{room.name}}</a></h5>
+            <small>{{room.topic.name}}</small>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h3>Recent Activities</h3>
+        <hr>
+        {% for message in all_messages %}
+        <div>
+            <a href="/studybud/profile/{{message.user.id}}">@{{message.user}}</a><small>  {{message.created|timesince}} ago</small>
+            <p>commented on "<a href="/studybud/room/{{message.room.id}}">{{message.room}}</a>"</p>
+            <h5>{{message}} ...</h5>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}
