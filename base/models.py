@@ -65,7 +65,7 @@ class Agent(models.Model):
 
 delivery_choices = (('At agency', 'At agency'), ('At customer home', 'At customer home'))
 
-class package(models.Model):
+class Package(models.Model):
     id = models.UUIDField(primary_key=True ,verbose_name='package id', default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True) 
