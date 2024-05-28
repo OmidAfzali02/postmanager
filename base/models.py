@@ -67,6 +67,8 @@ delivery_choices = (('At agency', 'At agency'), ('At customer home', 'At custome
 
 class package(models.Model):
     id = models.UUIDField(primary_key=True ,verbose_name='package id', default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True) 
+    updated = models.DateTimeField(auto_now=True) 
     qr_code = models.ImageField(blank=True, null=True, upload_to='media/packages')
     contents = models.CharField(max_length=100, blank=True, default=str)
     length = models.PositiveSmallIntegerField(blank=True, default=0, verbose_name="Package length in cm")
