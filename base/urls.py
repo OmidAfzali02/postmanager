@@ -5,9 +5,10 @@ app_name = 'base'
 
 urlpatterns = [
     path('', home, name='home'),
-    path('login/', login, name='login'),
-    # path('signup/', login, name='signup'),
-    # path('send/', login, name='send'),
+    path('login/', login_page, name='login'),
+    path('register/', login_page, name='register'),
+    path('logout/', userLogout, name='logout'),
+    path('send/', send_package, name='send'),
     # path('track/', login, name='track'),
     # path('agent_signup/', login, name='agent_signup'),
     

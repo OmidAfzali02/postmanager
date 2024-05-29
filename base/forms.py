@@ -10,6 +10,7 @@ class PackageForm(ModelForm):
     class Meta:
         model = Package
         fields = '__all__'
+        exclude = ('location', 'sender_agency', 'receiver_agency', 'qr_code', )
 
 class AgentForm(ModelForm):
     class Meta:

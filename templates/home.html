@@ -1,5 +1,11 @@
 {% block content %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="notification {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
 <style>
     .home-container{
         display: grid;
@@ -12,6 +18,16 @@
 <form action="/studybud/" method="get">
     <input type="text" name="q" placeholder="Search Rooms ...">
 </form>
+
+<div class="user">
+    {% if request.user.is_authenticated %}
+    <p><a href="/profile/{{request.user.id}}">@{{request.user}}</a></p>
+    <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+    <a href="/login">Login</a>
+    {% endif %}
+    <hr>
+</div>
 
 
 <div class="home-container">
@@ -34,7 +50,7 @@
     </div>
 
     <div>
-        <h3><a href="/studybud/create-room/"> Send package</a></h3>
+        <h3><a href="{% url 'send' %}"> Send package</a></h3>
         {% for room in rooms %}
         <div>
             {% if request.user == room.host %}

@@ -82,13 +82,13 @@ class Package(models.Model):
     sender_phone = models.CharField(max_length=10)
     sender_address = models.TextField()
     sender_postal_code = models.CharField(max_length=10, blank=True, default=str)
-    sender_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Sended_agency')
+    sender_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Sended_agency', blank=True, null=True)
 
     receiver_name = models.CharField(max_length=20)
     receiver_phone = models.CharField(max_length=10)
     receiver_address = models.TextField()
     receiver_postal_code = models.CharField(max_length=10, blank=True, default=str)
-    receiver_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Received_agency')
+    receiver_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Received_agency', blank=True, null=True)
 
     def __str__(self):
         return str(self.sender_agency.agency_city) +' to '+ str(self.receiver_agency.agency_city) + ', ' + str(self.id)
