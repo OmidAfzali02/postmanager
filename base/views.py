@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import PackageForm
+from .forms import PackageForm, RegistrationForm
 from .models import User
 
 # Create your views here.
@@ -43,22 +43,22 @@ def userLogout(request):
 
 def userRegister(request):
     page = 'register'
-    form = UserCreationForm()
+    form = RegistrationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.username = user.username.lower()
+            user.email = user.email.lower()
             user.save()
             login(request, user)
-            return redirect('/studybud/')
+            return redirect('/')
         else:
             messages.error(request, 'An error occured during registration! ')
         
 
     context = {'page': page, 'form': form}
-    return render(request, 'login_register.html', context)
+    return render(request, 'login.html', context)
 
 @login_required(login_url="/login") 
 def send_package(request):

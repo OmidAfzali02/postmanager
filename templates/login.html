@@ -1,5 +1,11 @@
 {% block content %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="notification {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
 {% if page == 'login' %}
 <div>
     <form  method = "POST" action="">
