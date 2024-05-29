@@ -1,0 +1,9 @@
+{% if request.user != user %}
+<div>
+    <h1>You do not have access to this page</h1>
+</div>
+
+{% else %}
+<h1>{{user}}</h1>
+
+{% endif %}

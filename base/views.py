@@ -72,7 +72,7 @@ def send_package(request):
     context = {'form': form}
     return render(request, 'send_package.html', context)
 
-@login_required(login_url="/studybud/login")
+@login_required(login_url="/login")
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     context = {"user": user}
