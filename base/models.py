@@ -91,4 +91,4 @@ class Package(models.Model):
     receiver_agency = models.ForeignKey(Agent, on_delete=models.CASCADE, related_name='Received_agency', blank=True, null=True)
 
     def __str__(self):
-        return str(self.sender_agency.agency_city) +' to '+ str(self.receiver_agency.agency_city) + ', ' + str(self.id)
+        return str(self.sender_agency) +' to '+ str(self.receiver_agency) + ', ' + str(self.id)

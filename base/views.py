@@ -71,3 +71,9 @@ def send_package(request):
             return redirect('/')
     context = {'form': form}
     return render(request, 'send_package.html', context)
+
+@login_required(login_url="/studybud/login")
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    context = {"user": user}
+    return render(request, 'profile.html', context)
