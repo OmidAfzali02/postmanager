@@ -5,7 +5,7 @@ from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import PackageForm, RegistrationForm
-from .models import User
+from .models import User, Address
 
 # Create your views here.
 def home(request):
@@ -75,5 +75,6 @@ def send_package(request):
 @login_required(login_url="/login")
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
-    context = {"user": user}
+    user_addresses = Address.objects.filter(customer=user)
+    context = {"user": user, "user_addresses": user_addresses}
     return render(request, 'profile.html', context)

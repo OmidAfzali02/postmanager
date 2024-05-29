@@ -4,6 +4,22 @@
 </div>
 
 {% else %}
-<h1>{{user}}</h1>
+<div>
+    <h1>{{user}}</h1>
+    <hr>
+</div>
+
+<div class="user_addresses">
+    <h1>Addresses</h1>
+    {% for add in user_addresses %}
+    <div>
+        <h3>{{add.province}}</h3>
+        <h3>{{add.city}}</h3>
+        <h4>{{add.address}}</h4>
+        <h4>{{add.postal_code}}</h4>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
 
 {% endif %}
