@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import PackageForm, RegistrationForm
+from .forms import PackageForm, RegistrationForm, AddressForm
 from .models import User, Address
 
 # Create your views here.
@@ -78,3 +78,21 @@ def userProfile(request, pk):
     user_addresses = Address.objects.filter(customer=user)
     context = {"user": user, "user_addresses": user_addresses}
     return render(request, 'profile.html', context)
+
+@login_required(login_url="/login")
+def edit_address(request, pk):
+    address = Address.objects.get(id=pk)
+    user = request.user
+    if address.customer != user:
+        return HttpResponse("You cannot edit this address")
+
+    form = AddressForm(instance=address)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('/profile/'+ str(user.id))
+
+    context = {'form': form}
+    return render(request, 'editAddress.html', context)

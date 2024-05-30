@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', userLogout, name='logout'),
     path('profile/<int:pk>/', userProfile, name='logout'),
     path('send/', send_package, name='send'),
+    path('address/<int:pk>', edit_address, name='edit_address'),
     # path('track/', login, name='track'),
     # path('agent_signup/', login, name='agent_signup'),
     
