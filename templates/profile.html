@@ -1,3 +1,10 @@
+{% if messages %}
+    {% for message in messages %}
+        <div class="notification {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+
 {% if request.user != user %}
 <div>
     <h1>You do not have access to this page</h1>
@@ -11,6 +18,8 @@
 
 <div class="user_addresses">
     <h1>Addresses</h1>
+    {% if user_addresses %}
+    <p><a href="{% url 'create_address' %}">Add new address</a></p>
     {% for add in user_addresses %}
     <div>
         <h3><a href="{% url 'edit_address' add.id %}"> Address {{add.id}}</a></h3>
@@ -21,6 +30,10 @@
         <hr>
     </div>
     {% endfor %}
+    {% else %}
+        <p>You don't have any address</p>
+        <a href="{% url 'create_address' %}">Add an address</a>
+    {% endif %}
 </div>
 
 {% endif %}

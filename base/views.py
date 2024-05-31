@@ -96,3 +96,19 @@ def edit_address(request, pk):
 
     context = {'form': form}
     return render(request, 'editAddress.html', context)
+
+@login_required(login_url="/login") 
+def createAddress(request):
+    user = request.user
+    form = AddressForm()
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False) 
+            instance.customer = user 
+            instance.save()
+            messages.success(request, "Address add successful")
+
+            return redirect('/profile/'+str(user.id))
+    context = {'form': form}
+    return render(request, 'createAddress.html', context)

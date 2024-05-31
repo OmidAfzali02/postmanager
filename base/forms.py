@@ -9,8 +9,6 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ('email', 'password1', 'password2')
 
-
-
 class PackageForm(ModelForm):
     class Meta:
         model = Package
@@ -26,3 +24,4 @@ class AddressForm(ModelForm):
     class Meta:
         model = Address
         fields = '__all__'
+        exclude = ['customer']

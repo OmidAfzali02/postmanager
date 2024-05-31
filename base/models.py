@@ -41,14 +41,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Address(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     province = models.CharField(max_length=20, null=True, blank=True)
     city = models.CharField(max_length=30, null=True, blank=True)
     address = models.TextField(default=str)
     postal_code = models.CharField(max_length=10, default=str, unique=True)
 
     def __str__(self):
-        return str(self.id) + ', ' + str(self.customer.name)
+        return str(self.id) + ', ' + str(self.customer)
     
 
 class Agent(models.Model):
