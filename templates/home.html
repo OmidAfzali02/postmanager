@@ -1,10 +1,6 @@
-{% block content %}
+{% include 'navbar.html' %}
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="notification {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
+{% block content %}
 
 <style>
     .home-container{
@@ -13,22 +9,9 @@
     }
 </style>
 
-<h1>Falcon Postal Service</h1>
-
 <form action="/studybud/" method="get">
     <input type="text" name="q" placeholder="Search Rooms ...">
 </form>
-
-<div class="user">
-    {% if request.user.is_authenticated %}
-    <p><a href="/profile/{{request.user.id}}">@{{request.user}}</a></p>
-    <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-    <a href="/login">Login</a>
-    {% endif %}
-    <hr>
-</div>
-
 
 <div class="home-container">
     <div>
