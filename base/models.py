@@ -48,7 +48,7 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=10, default=str, unique=True)
 
     def __str__(self):
-        return str(self.id) + ', ' + str(self.customer)
+        return str(self.id) + ', ' + str(self.province) + ' ' + str(self.city) + ' ' + str(self.address)
     
 
 class Agent(models.Model):

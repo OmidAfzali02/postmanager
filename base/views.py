@@ -112,3 +112,17 @@ def createAddress(request):
             return redirect('/profile/'+str(user.id))
     context = {'form': form}
     return render(request, 'createAddress.html', context)
+
+@login_required(login_url="/login") 
+def deleteAddress(request, pk):
+    user = request.user
+    address = Address.objects.get(id=pk)
+    if address.customer != user:
+        return HttpResponse(request, 'You are not allowed to access this page')
+    
+    if request.method == 'POST':
+        address.delete()
+        messages.success(request, "Address delete successful")
+        return redirect('/profile/'+str(user.id))
+    context = {'obj': address}
+    return render(request, 'deleteAddress.html', context)

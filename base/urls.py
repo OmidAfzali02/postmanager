@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('address/<int:pk>', edit_address, name='edit_address'),
     path('address/create', createAddress, name='create_address'),
+    path('address/delete/<int:pk>', deleteAddress, name='delete_address'),
     # path('track/', login, name='track'),
     # path('agent_signup/', login, name='agent_signup'),
     

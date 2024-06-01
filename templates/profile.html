@@ -22,7 +22,7 @@
     <p><a href="{% url 'create_address' %}">Add new address</a></p>
     {% for add in user_addresses %}
     <div>
-        <h3><a href="{% url 'edit_address' add.id %}"> Address {{add.id}}</a></h3>
+        <h3><a href="{% url 'edit_address' add.id %}"> Address {{add.id}}</a></h3><p><a href="{% url 'delete_address' add.id %}">Delete address</a></p>
         <h3>{{add.province}}</h3>
         <h3>{{add.city}}</h3>
         <h4>{{add.address}}</h4>
