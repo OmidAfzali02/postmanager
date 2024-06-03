@@ -1,0 +1,13 @@
+{% include 'navbar.html' %}
+
+{% if request.user != user %}
+<div>
+    <h1>You do not have access to this page</h1>
+</div>
+
+{% else %}
+<div>
+    <h1>{{user}}</h1>
+    <hr>
+</div>
+{% endif %}

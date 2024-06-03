@@ -19,5 +19,6 @@ urlpatterns = [
     path('address/delete/<int:pk>', deleteAddress, name='delete_address'),
 
     path('agent/signup/', agentSetup, name='agent_signup'),
+    path('agent/login/<int:pk>/', agentProfile, name='agent_profile'),
     
 ]

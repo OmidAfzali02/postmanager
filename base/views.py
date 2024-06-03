@@ -5,7 +5,7 @@ from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import PackageForm, RegistrationForm, AddressForm, AgentForm
-from .models import User, Address
+from .models import User, Address, Agent
 
 # Create your views here.
 def home(request):
@@ -142,3 +142,10 @@ def agentSetup(request):
             return redirect('/profile/'+str(user.id))
     context = {'form': form}
     return render(request, 'agentSetup.html', context)
+
+@login_required(login_url="/login")
+def agentProfile(request, pk):
+    user = User.objects.get(id=pk)
+    agency = Agent.objects.filter(agent=user)
+    context = {"user": user, "agency": agency}
+    return render(request, 'agentProfile.html', context)
