@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import PackageForm, RegistrationForm, AddressForm
+from .forms import PackageForm, RegistrationForm, AddressForm, AgentForm
 from .models import User, Address
 
 # Create your views here.
@@ -126,3 +126,19 @@ def deleteAddress(request, pk):
         return redirect('/profile/'+str(user.id))
     context = {'obj': address}
     return render(request, 'deleteAddress.html', context)
+
+@login_required(login_url="/login") 
+def agentSetup(request):
+    user = request.user
+    form = AgentForm()
+    if request.method == 'POST':
+        form = AgentForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False) 
+            instance.agent = user 
+            instance.save()
+            messages.success(request, "Agency registration successful")
+
+            return redirect('/profile/'+str(user.id))
+    context = {'form': form}
+    return render(request, 'agentSetup.html', context)

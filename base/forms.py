@@ -19,6 +19,7 @@ class AgentForm(ModelForm):
     class Meta:
         model = Agent
         fields = '__all__'
+        exclude = ['agent']
 
 class AddressForm(ModelForm):
     class Meta:
