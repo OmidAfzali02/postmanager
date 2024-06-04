@@ -2,12 +2,24 @@
 
 {% if request.user != user %}
 <div>
-    <h1>You do not have access to this page</h1>
+    <h1>{{agency.agent}}</h1>
+    <h3>{{agency.agency_address}}</h3>
+    <h3>{{agency.agency_postal_code}}</h3>
+    <h3>{{agency.agency_phone}}</h3>
+    <h3>{{agency.agency_province}}</h3>
+    <h3>{{agency.agency_city}}</h3>
+    <h3>{{agency.open_time}}</h3>
 </div>
 
 {% else %}
 <div>
-    <h1>{{user}}</h1>
-    <hr>
+    <a href="">Edit</a>
+    <h1>{{agency.agent.name}}</h1>
+    <h3>{{agency.agency_address}}</h3>
+    <h3>{{agency.agency_postal_code}}</h3>
+    <h3>{{agency.agency_phone}}</h3>
+    <h3>{{agency.agency_province}}</h3>
+    <h3>{{agency.agency_city}}</h3>
+    <h3>{{agency.open_time}}</h3>
 </div>
 {% endif %}

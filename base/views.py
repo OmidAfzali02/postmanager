@@ -145,7 +145,7 @@ def agentSetup(request):
 
 @login_required(login_url="/login")
 def agentProfile(request, pk):
-    user = User.objects.get(id=pk)
-    agency = Agent.objects.filter(agent=user)
-    context = {"user": user, "agency": agency}
+    agency = Agent.objects.get(id=pk)
+    user = agency.agent
+    context = {"agency": agency, 'user':user}
     return render(request, 'agentProfile.html', context)
