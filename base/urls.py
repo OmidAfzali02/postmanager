@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'base'
 
@@ -22,4 +24,4 @@ urlpatterns = [
     path('agent/login/', agentLogin, name='agent_login'),
     path('agent/<int:pk>', agentProfile, name='agent_profile'),
     
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

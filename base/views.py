@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import PackageForm, RegistrationForm, AddressForm, AgentForm
 from .models import User, Address, Agent
+from .qr import qr_encode
 
 # Create your views here.
 def home(request):
@@ -66,7 +67,9 @@ def send_package(request):
     if request.method == 'POST':
         form = PackageForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.qr_code = qr_encode(instance, str(instance.id))
+            instance.save()
             messages.success(request, 'Package registration successfull')
             return redirect('/')
     context = {'form': form}
