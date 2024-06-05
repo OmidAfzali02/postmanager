@@ -75,8 +75,9 @@ def send_package(request):
 @login_required(login_url="/login")
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
+    agencies = Agent.objects.filter(agent=user)
     user_addresses = Address.objects.filter(customer=user)
-    context = {"user": user, "user_addresses": user_addresses}
+    context = {"user": user, "user_addresses": user_addresses, 'agencies':agencies}
     return render(request, 'profile.html', context)
 
 @login_required(login_url="/login")
