@@ -137,7 +137,8 @@ def agentSetup(request):
             instance = form.save(commit=False) 
             instance.agent = user 
             instance.save()
-            messages.success(request, "Agency registration successful")
+            agency_id = instance.id
+            messages.success(request, f"Agency registration successful \nYou agency id: {agency_id}")
 
             return redirect('/profile/'+str(user.id))
     context = {'form': form}
@@ -147,5 +148,14 @@ def agentSetup(request):
 def agentProfile(request, pk):
     agency = Agent.objects.get(id=pk)
     user = agency.agent
+    context = {"agency": agency, 'user':user}
+    return render(request, 'agentProfile.html', context)
+
+@login_required(login_url="/login")
+def agentLogin(request):
+    user = request.user
+    agency = Agent.objects.filter(agent=user).first()
+    if agency is None:
+        return render(request, 'agent_notfound.html')
     context = {"agency": agency, 'user':user}
     return render(request, 'agentProfile.html', context)
