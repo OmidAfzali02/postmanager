@@ -5,7 +5,7 @@ from django.contrib import messages # to show flash messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import PackageForm, RegistrationForm, AddressForm, AgentForm
-from .models import User, Address, Agent
+from .models import User, Address, Agent, Package
 from .qr import qr_encode
 
 # Create your views here.
@@ -80,7 +80,9 @@ def userProfile(request, pk):
     user = User.objects.get(id=pk)
     agencies = Agent.objects.filter(agent=user)
     user_addresses = Address.objects.filter(customer=user)
-    context = {"user": user, "user_addresses": user_addresses, 'agencies':agencies}
+    sended_packages = Package.objects.filter(sender_phone=user.phone)
+    recieved_packages = Package.objects.filter(receiver_phone=user.phone)
+    context = {"user": user, "user_addresses": user_addresses, 'agencies':agencies, 'sended_packages':sended_packages, 'recieved_packages':recieved_packages}
     return render(request, 'profile.html', context)
 
 @login_required(login_url="/login")

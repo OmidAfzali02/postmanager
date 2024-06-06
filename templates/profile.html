@@ -46,3 +46,37 @@
     {% endfor %}
 </div>
 {% endif %}
+
+
+<div class="sended_packages">
+    <h1>Sended packages </h1>
+    <hr>
+    {% if sended_packages %}
+    {% for package in sended_packages %}
+    <h3>package: {{package.id}}</h3>
+    <h3>registration date {{package.created}}</h3>
+    <h4>contents {{package.contents}}</h4>
+    <h4>deliver at{{package.delivery}}</h4>
+    <h3>reciever name{{package.receiver_name}}</h3>
+    <h4>reciever phone{{package.receiver_phone}}</h4>
+    <hr>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<div class="recieved_packages">
+    <h1>Recieved packages </h1>
+    <hr>
+    {% if recieved_packages %}
+    {% for package in recieved_packages %}
+    <h3>package: {{package.id}}</h3>
+    <h3>registration date {{package.created}}</h3>
+    <h4>contents {{package.contents}}</h4>
+    <h4>deliver at{{package.delivery}}</h4>
+    <h3>sender name{{package.sender_name}}</h3>
+    <h4>sender phone{{package.sender_phone}}</h4>
+    <hr>
+    {% endfor %}
+</div>
+{% endif %}
