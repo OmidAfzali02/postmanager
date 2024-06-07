@@ -75,6 +75,23 @@ def send_package(request):
     context = {'form': form}
     return render(request, 'send_package.html', context)
 
+@login_required(login_url="/login") 
+def track_package(request, pk):
+    user = request.user
+    package = Package.objects.filter(id=pk).first()
+    sender = User.objects.filter(phone=package.sender_phone).first()
+    reciever = User.objects.filter(phone=package.receiver_phone).first()
+
+    if package is None:
+        HttpResponse(request, f"Couldn't find any package with this id: {pk}")
+
+    if package.sender_phone != user.phone or package.receiver_phone != user.phone:
+        HttpResponse(request, "You do not have access to this page \nonly sender and reciever can track package")
+
+    context = {'package': package, 'sender': sender, 'reciever':reciever}    
+    return render(request, 'track.html', context)
+
+
 @login_required(login_url="/login")
 def userProfile(request, pk):
     user = User.objects.get(id=pk)

@@ -11,10 +11,10 @@ urlpatterns = [
     path('register/', userRegister, name='register'),
     path('logout/', userLogout, name='logout'),
 
-    path('profile/<int:pk>/', userProfile, name='logout'),
+    path('profile/<int:pk>/', userProfile, name='profile'),
 
     path('send/', send_package, name='send'),
-    # path('track/', login, name='track'),
+    path('track/<str:pk>/', track_package, name='track'),
 
     path('address/<int:pk>', edit_address, name='edit_address'),
     path('address/create', createAddress, name='create_address'),

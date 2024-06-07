@@ -1,0 +1,37 @@
+{% include 'navbar.html' %}
+<div class="track_packge">
+
+    <h2>package {{package.id}}</h2>
+
+    <div class="sender_info">
+        <h2><a href="{% url 'profile' sender.id %}"> sender info </a></h2>
+        <h3>name: {{sender.name}}</h3>
+        <h3>name: {{sender.phone}}</h3>
+    </div>
+    <div class="reciever_info">
+        <h2><a href="{% url 'profile' reciever.id %}">reciever info</a></h2>
+        <h3>name: {{reciever.name}}</h3>
+        <h3>name: {{reciever.phone}}</h3>
+    </div>
+    <hr>
+
+    <div class="package_info">
+        <h2>package info</h2>
+        <h3>registration: {{package.created}}</h3>
+        <h3>last change: {{package.updated}}</h3>
+        <h3>contents: {{package.contents}}</h3>
+        <h3>width: {{package.width}} cm</h3>
+        <h3>height: {{package.height}} cm</h3>
+        <h3>length: {{package.length}} cm</h3>
+        <h3>weight: {{package.weight}} grams</h3>
+        <h3>deliver: {{package.delivery}}</h3>
+
+        <div class="package_location">
+            <h3>Locations and stops</h3>
+            {% for loc in package.location %}
+                <h4>{{loc}}</h4>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
