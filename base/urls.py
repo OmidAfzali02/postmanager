@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('send/', send_package, name='send'),
     path('track/<str:pk>/', track_package, name='track'),
+    path('package/transfer/', package_change_status, name='package_change_status'),
 
     path('address/<int:pk>', edit_address, name='edit_address'),
     path('address/create', createAddress, name='create_address'),

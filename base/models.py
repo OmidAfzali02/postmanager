@@ -66,7 +66,7 @@ class Agent(models.Model):
 delivery_choices = (('At agency', 'At agency'), ('At customer home', 'At customer home'))
 
 class Package(models.Model):
-    id = models.UUIDField(primary_key=True ,verbose_name='package id', default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True ,verbose_name='package id', default=uuid.uuid4, editable=True)
     created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True) 
     qr_code = models.ImageField(blank=True, null=True, upload_to='media/packages')

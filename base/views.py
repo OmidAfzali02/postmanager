@@ -8,6 +8,8 @@ from .forms import PackageForm, RegistrationForm, AddressForm, AgentForm
 from .models import User, Address, Agent, Package
 from .qr import qr_encode
 
+from datetime import datetime
+
 # Create your views here.
 def home(request):
     context = {}
@@ -182,3 +184,46 @@ def agentLogin(request):
         return render(request, 'agent_notfound.html')
     context = {"agency": agency, 'user':user}
     return render(request, 'agentProfile.html', context)
+
+@login_required(login_url="/login")
+def package_change_status(request):
+    user = request.user
+    agency = Agent.objects.filter(agent=user).first()
+    if agency is None:
+        return render(request, 'agent_notfound.html')
+
+    def entry(province, city, action): # to create the info on the location field
+        time = datetime.now()
+        time = time.strftime('%Y-%m-%d %H:%M:%S')
+        entry = {'province':province, 'city': city, 'action':action, 'time':time}
+        return entry
+
+    def decide_action(agency_province, agency_city, reciever_province, reciever_city, delivery): # decide what action should be taken on the package
+        if agency_province is reciever_province and agency_city is reciever_city and delivery == "At customer home":
+            return "Package recieved from the agent \nagent will deliver the package at customer home "
+        elif agency_province is reciever_province and agency_city is reciever_city and delivery == "At agency":
+            return "Package recieved from the agent \npackage will be delivered upon customer visit at the agency"
+        elif agency_province is not reciever_province and agency_city is not reciever_city:
+            return "Package will be send to customer city"
+
+    if request.method == 'POST':
+        if request.method == 'POST':
+            qr_code = request.FILES.get('qr_code')
+            Package_ID = request.POST['Package_ID']
+            if Package_ID:
+                package = Package.objects.get(id=Package_ID) # get the package so we can change it
+                reciever = User.objects.filter(phone=package.receiver_phone).first()
+                reciever_address = Address.objects.filter(customer=reciever).first()
+                agency_province = agency.agency_province
+                agency_city = agency.agency_city
+                reciever_province = reciever_address.province
+                reciever_city = reciever_address.city
+                action = decide_action(agency_province, agency_city, reciever_province, reciever_city, package.delivery)
+                new_info = entry(province=agency.agency_province, city=agency.agency_city, action=action)
+
+                # add the new info to the location field
+                package.location.append(new_info)
+                package.save()
+                return redirect('/track/' + str(Package_ID) + '/')
+
+    return render(request, 'change_package_status.html')

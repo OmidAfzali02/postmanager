@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>package transfer</title>
+</head>
+<body>
+    {% include 'navbar.html' %} 
+
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="imageInput">Package QR code:</label>
+            <input type="file" name="qr_code" id="imageInput" accept="image/*">
+            
+            <label for="textInput">Package ID:</label>
+            <input type="text" name="Package_ID" id="textInput">
+            
+            <button type="submit">Submit</button>
+            <a href="{{request.META.HTTP_REFERER}}">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
+

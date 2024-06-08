@@ -1,7 +1,8 @@
 {% include 'navbar.html' %}
 
 {% if request.user != user %}
-<div>
+
+<div class="agency_info">
     <h1>{{agency.agent}}</h1>
     <h3>{{agency.agency_address}}</h3>
     <h3>{{agency.agency_postal_code}}</h3>
@@ -12,7 +13,12 @@
 </div>
 
 {% else %}
-<div>
+
+<div class="transfer">
+    <h3><a href="{% url 'package_change_status' %}">Transfer packages</a></h3>
+</div>
+
+<div class="agency_info">
     <a href="">Edit</a>
     <h1>{{agency.agent.name}}</h1>
     <h3>{{agency.agency_address}}</h3>
