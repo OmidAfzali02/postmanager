@@ -186,13 +186,24 @@ def agentLogin(request):
     return redirect('/agent/' + str(agency.id))
 
 @login_required(login_url="/login")
-def agentEdit(request):
+def agentEdit(request, pk):
     user = request.user
-    agency = Agent.objects.filter(agent=user).first()
+    agency = Agent.objects.filter(id=pk).first()
     if agency is None:
         return render(request, 'agent_notfound.html')
-    context = {"agency": agency, 'user':user}
-    return render(request, 'agentProfile.html', context)
+    if agency.agent != user:
+        return HttpResponse("You do not have access to this page")
+
+    form = AgentForm(instance=agency)
+
+    if request.method == 'POST':
+        form = AgentForm(request.POST, instance=agency)
+        if form.is_valid():
+            form.save()
+            return redirect('/agent/'+ str(agency.id))
+
+    context = {'form': form}
+    return render(request, 'edit_agent.html', context)
 
 @login_required(login_url="/login")
 def package_change_status(request):

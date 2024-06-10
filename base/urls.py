@@ -24,5 +24,6 @@ urlpatterns = [
     path('agent/signup/', agentSetup, name='agent_signup'),
     path('agent/login/', agentLogin, name='agent_login'),
     path('agent/<int:pk>', agentProfile, name='agent_profile'),
+    path('agent/edit/<int:pk>', agentEdit, name='agent_edit'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -19,7 +19,7 @@
 </div>
 
 <div class="agency_info">
-    <a href="">Edit</a>
+    <a href="{% url 'agent_edit' agency.id %}">Edit</a>
     <h1>{{user.name}}</h1>
     <h3>{{agency.agency_address}}</h3>
     <h3>{{agency.agency_postal_code}}</h3>
