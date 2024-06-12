@@ -29,7 +29,9 @@
         <div class="package_location">
             <h3>Locations and stops</h3>
             {% for loc in package.location %}
-                <h4>{{loc}}</h4>
+                <p>{{loc.province}}  {{loc.city}}  {{loc.time}}</p>
+                <p>{{loc.action}}</p>
+                <hr>
             {% endfor %}
         </div>
         
