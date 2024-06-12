@@ -34,6 +34,7 @@
 
     <div>
         <h3><a href="{% url 'send' %}"> Send package</a></h3>
+        <h3><a href="{% url 'track' %}"> track packages</a></h3>
         {% for room in rooms %}
         <div>
             {% if request.user == room.host %}

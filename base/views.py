@@ -85,13 +85,35 @@ def track_package(request, pk):
     reciever = User.objects.filter(phone=package.receiver_phone).first()
 
     if package is None:
-        HttpResponse(request, f"Couldn't find any package with this id: {pk}")
+        HttpResponse(f"Couldn't find any package with this id: {pk}")
 
     if package.sender_phone != user.phone or package.receiver_phone != user.phone:
-        HttpResponse(request, "You do not have access to this page \nonly sender and reciever can track package")
+        HttpResponse("You do not have access to this page, only sender and reciever can track package")
 
     context = {'package': package, 'sender': sender, 'reciever':reciever}    
     return render(request, 'track.html', context)
+
+@login_required(login_url="/login") 
+def track(request):
+    user = request.user
+
+    if request.method == 'POST':
+        qr_code = request.FILES.get('qr_code')
+        Package_ID = request.POST['Package_ID']
+        if Package_ID:
+            try:
+                package = Package.objects.get(id=Package_ID) # get the package so we can change it
+                reciever = User.objects.filter(phone=package.receiver_phone).first()
+                sender = User.objects.filter(phone=package.sender_phone).first()
+            except:
+                return HttpResponse('404, No package with this id ')
+            
+            if user!= reciever or user!=sender:
+                return HttpResponse("You do not have access to this page")
+
+            return redirect('/track/' + str(Package_ID)+ '/')
+
+    return render(request, 'change_package_status.html')
 
 
 @login_required(login_url="/login")
@@ -143,7 +165,7 @@ def deleteAddress(request, pk):
     user = request.user
     address = Address.objects.get(id=pk)
     if address.customer != user:
-        return HttpResponse(request, 'You are not allowed to access this page')
+        return HttpResponse('You are not allowed to access this page')
     
     if request.method == 'POST':
         address.delete()
@@ -227,23 +249,25 @@ def package_change_status(request):
             return "Package will be send to customer city"
 
     if request.method == 'POST':
-        if request.method == 'POST':
-            qr_code = request.FILES.get('qr_code')
-            Package_ID = request.POST['Package_ID']
-            if Package_ID:
+        qr_code = request.FILES.get('qr_code')
+        Package_ID = request.POST['Package_ID']
+        if Package_ID:
+            try:
                 package = Package.objects.get(id=Package_ID) # get the package so we can change it
-                reciever = User.objects.filter(phone=package.receiver_phone).first()
-                reciever_address = Address.objects.filter(customer=reciever).first()
-                agency_province = agency.agency_province
-                agency_city = agency.agency_city
-                reciever_province = reciever_address.province
-                reciever_city = reciever_address.city
-                action = decide_action(agency_province, agency_city, reciever_province, reciever_city, package.delivery)
-                new_info = entry(province=agency.agency_province, city=agency.agency_city, action=action)
+            except:
+                return HttpResponse('404, No package with this id ')
+            reciever = User.objects.filter(phone=package.receiver_phone).first()
+            reciever_address = Address.objects.filter(customer=reciever).first()
+            agency_province = agency.agency_province
+            agency_city = agency.agency_city
+            reciever_province = reciever_address.province
+            reciever_city = reciever_address.city
+            action = decide_action(agency_province, agency_city, reciever_province, reciever_city, package.delivery)
+            new_info = entry(province=agency.agency_province, city=agency.agency_city, action=action)
 
-                # add the new info to the location field
-                package.location.append(new_info)
-                package.save()
-                return redirect('/track/' + str(Package_ID) + '/')
+            # add the new info to the location field
+            package.location.append(new_info)
+            package.save()
+            return redirect('/track/' + str(Package_ID) + '/')
 
     return render(request, 'change_package_status.html')
