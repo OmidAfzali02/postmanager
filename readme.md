@@ -33,6 +33,6 @@ now you can run the project:
 
     python manage.py runserver
 
-Now enjoy 😊
+Enjoy 😊
 
  
